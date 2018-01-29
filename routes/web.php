@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 use App\Task;
 
 Route::get('/', function () {
-    $tasks = Task::all();
+    $tasks = Task::all()->toArray();
 
-    return View::make('welcome')->with('tasks',$tasks);
+    $array = array_combine(range(1, count($tasks)), array_values($tasks));
+
+    return View::make('welcome')->with('tasks',$array);
 });
 
 Route::get('/tasks/{task_id?}',function($task_id){

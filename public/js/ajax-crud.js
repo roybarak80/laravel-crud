@@ -18,6 +18,7 @@ $(document).ready(function(){
             $('#btn-save').val("update");
 
             $('#myModal').modal('show');
+
         })
     });
 
@@ -33,13 +34,16 @@ $(document).ready(function(){
         var task_id = $(this).val();
 
         $.ajax({
-
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },
             type: "DELETE",
             url: url + '/' + task_id,
             success: function (data) {
                 console.log(data);
 
                 $("#task" + task_id).remove();
+                location.reload();
             },
             error: function (data) {
                 console.log('Error:', data);
@@ -83,9 +87,10 @@ $(document).ready(function(){
             data: formData,
             dataType: 'json',
             success: function (data) {
+
                 console.log(data);
 
-                var task = '<tr id="task' + data.id + '"><td>' + data.id + '</td><td>' + data.task + '</td><td>' + data.description + '</td><td>' + data.created_at + '</td>';
+                var task = '<tr id="task' + data.id + '"><td></td><td>' + data.task + '</td><td>' + data.description + '</td><td>' + data.created_at + '</td>';
                 task += '<td><button class="btn btn-warning btn-xs btn-detail open-modal" value="' + data.id + '">Edit</button>';
                 task += '<button class="btn btn-danger btn-xs btn-delete delete-task" value="' + data.id + '">Delete</button></td></tr>';
 
@@ -96,9 +101,11 @@ $(document).ready(function(){
                     $("#task" + task_id).replaceWith( task );
                 }
 
-                $('#frmTasks').trigger("reset");
+                //$('#frmTasks').trigger("reset");
 
                 $('#myModal').modal('hide')
+                location.reload();
+
             },
             error: function (data) {
                 console.log('Error:', data);

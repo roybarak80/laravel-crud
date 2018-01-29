@@ -24,16 +24,17 @@
             </tr>
             </thead>
             <tbody id="tasks-list" name="tasks-list">
-            @foreach ($tasks as $task)
-                <tr id="task{{$task->id}}">
 
-                    <td>{{$task->id}}</td>
-                    <td>{{$task->task}}</td>
-                    <td>{{$task->description}}</td>
-                    <td>{{$task->created_at}}</td>
+            @foreach ($tasks as $key=>$task)
+                <tr id="task{{$task['id']}}">
+
+                    <td>{{$key}}</td>
+                    <td>{{$task['task']}}</td>
+                    <td>{{$task['description']}}</td>
+                    <td>{{$task['created_at']}}</td>
                     <td>
-                        <button class="btn btn-warning btn-xs btn-detail open-modal" value="{{$task->id}}">Edit</button>
-                        <button class="btn btn-danger btn-xs btn-delete delete-task" value="{{$task->id}}">Delete</button>
+                        <button class="btn btn-warning btn-xs btn-detail open-modal" value="{{$task['id']}}">Edit</button>
+                        <button class="btn btn-danger btn-xs btn-delete delete-task" value="{{$task['id']}}">Delete</button>
                     </td>
                 </tr>
             @endforeach
@@ -75,7 +76,7 @@
         </div>
     </div>
 </div>
-<meta name="_token" content="{!! csrf_token() !!}" />
+<meta name="_token" content="{{ csrf_token() }}" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="{{asset('js/ajax-crud.js')}}"></script>
